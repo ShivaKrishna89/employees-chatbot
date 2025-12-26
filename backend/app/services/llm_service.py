@@ -12,7 +12,6 @@ def loadPrompt():
 SYSTEM_PROMPT = loadPrompt()
 
 def get_api_response(user_input: str):
-    print(SYSTEM_PROMPT)
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         temperature=1,
