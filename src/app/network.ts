@@ -10,9 +10,18 @@ export class Network {
 
   constructor(private http: HttpClient) {}
 
-getData(userInput: string): Observable<any> {
-  return this.http.get(`${this.baseUrl}/chat`, {
-    params: { userInput }
-  });
-}
+  getData(userInput: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/chat`, {
+      params: { userInput }
+    });
+  }
+
+  uploadFile(file: File, userInput: string = ''): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (userInput) {
+      formData.append('userInput', userInput);
+    }
+    return this.http.post(`${this.baseUrl}/upload`, formData);
+  }
 }

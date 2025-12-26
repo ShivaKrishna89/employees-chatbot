@@ -6,7 +6,7 @@
 
   <div class="chatbot-messages" #messagesContainer>
     <div *ngFor="let message of messages" [ngClass]="message.type" class="message">
-      <div class="question">{{ message.question }}</div>
+      <div class="question" [innerHTML]="message.question"></div>
       <div class="answer">{{ message.answer }}</div>
     </div>
   </div>
@@ -19,7 +19,22 @@
       (keyup.enter)="sendMessage()"
       class="message-input"
     />
-    <button (click)="sendMessage()" class="send-btn">Send</button>
+    <div class="footer-actions">
+      <button (click)="attachmentInput.click()" class="attach-btn" title="Attach file">
+        <i class="fa-solid fa-paperclip"></i>
+      </button>
+      <input
+        #attachmentInput
+        type="file"
+        hidden
+        (change)="onFileSelected($event)"
+        class="file-input"
+      />
+      <button (click)="sendMessage()" class="send-btn">Send</button>
+    </div>
+    <div *ngIf="selectedFile" class="file-info">
+      📄 {{ selectedFile.name }} <button (click)="clearFile()" class="clear-btn">✕</button>
+    </div>
   </div>
 </div>
 </div>
