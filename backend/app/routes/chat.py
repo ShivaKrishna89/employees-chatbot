@@ -3,7 +3,7 @@ import os
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, File, HTTPException, UploadFile, Form
 from services.llm_service import get_api_response_for_prompt,get_api_response_for_attachment
-from crud.employee import getEmployee,CreateEmployee
+from crud.employee import getEmployee,createEmployee, updateEmployee, deleteEmployee
 from db.db import session
 from fastapi import Depends
 chat = APIRouter()
@@ -26,10 +26,12 @@ def getChat(userInput:str,db: Session = Depends(get_db)
     intent = resp["intent"]
     name = resp["name"]
     department = resp["department"]
-    return proceed(intent,name,department,db)
+    updateField = resp.get('updateField')
+    newValue = resp.get('newValue')
+    return proceed(intent,name,department,updateField,newValue,db)
 
 
-def proceed(intent,name,department, db: Session):
+def proceed(intent,name,department,updateField,newValue, db: Session):
     resp = None
     match(intent):
         case 'CHECK':
@@ -38,7 +40,17 @@ def proceed(intent,name,department, db: Session):
             if department is None:
                resp = "Please mention department to create employee"
             else:
-               resp = CreateEmployee(name,department, db)
+               resp = createEmployee(name,department, db)
+        case 'UPDATE':
+            if department is None:
+               resp = "Please mention department to update employee"
+            else:
+               resp = updateEmployee(name,department,updateField,newValue, db)
+        case 'DELETE':
+            if department is None:
+               resp = "Please mention department to delete employee"
+            else:
+               resp = deleteEmployee(name,department, db)
     return resp
 
 def extract_text_from_pdf(file_bytes: bytes) -> str:
@@ -65,7 +77,9 @@ async def upload_file(file: UploadFile = File(...),userInput: str = Form(""),db:
       intent = resp["intent"]
       name = resp["name"]
       department = resp["department"]
-      return proceed(intent,name,department,db)
+      updateField = resp.get('updateField')
+      newValue = resp.get('newValue')
+      return proceed(intent,name,department,updateField,newValue,db)
     except Exception as e:
        resp = {"intent": None, "name": None, "department": None}
     finally:

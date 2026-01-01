@@ -17,7 +17,7 @@ export class App {
   constructor(private networkService:Network) {
 
   }
-  protected readonly title = signal('employees-chatbot');
+  protected readonly title = signal('Chatbot');
   messages: { type: string; question: string; answer: string }[] = [];
   userInput:any
   selectedFile: File | null = null;
@@ -52,7 +52,6 @@ onFileSelected(event: Event) {
     answer: 'Typing...'
   };
 
-  // ✅ PUSH IMMEDIATELY
   this.messages.push(msg);
 
   if (this.selectedFile) {

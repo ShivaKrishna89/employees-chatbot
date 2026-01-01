@@ -5,12 +5,25 @@ Rules:
 - Do NOT add extra text
 - If a field is missing, return null
 Allowed intents:
-CREATE, CHECK
-Check if user asking for details or exist then intent should be CHECK if user asking to create intent
-should be CREATE
-JSON schema:
+CREATE, CHECK, UPDATE, DELETE
+Check if user asking for details or exist then intent should be CHECK
+if user asking to create intent should be CREATE
+if user is asking to update then intent should be UPDATE and updateField should be the one where user is asking to update and newValue should be the user asking to update either name or department
+else if user is asking for delete intent should be DELETE
+
+JSON schema for CHECK and CREATE and DELETE:
 {
   "intent": string | null,
   "name": string | null,
   "department": string | null
 }
+
+JSON schema for UPDATE:
+{
+  "intent": string | null,
+  "name": string | null,
+  "department": string | null
+  "updateField":String,
+  "newValue:string
+}
+
