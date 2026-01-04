@@ -11,7 +11,7 @@ export class Network {
   constructor(private http: HttpClient) {}
 
   getData(userInput: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/chat`, {
+    return this.http.get(`${this.baseUrl}/chat/text`, {
       params: { userInput }
     });
   }
@@ -22,6 +22,6 @@ export class Network {
     if (userInput) {
       formData.append('userInput', userInput);
     }
-    return this.http.post(`${this.baseUrl}/upload`, formData);
+    return this.http.post(`${this.baseUrl}/chat/file`, formData);
   }
 }

@@ -8,12 +8,6 @@ def loadPrompt():
     with open('prompts/nlu_prompts.txt','r') as prompt:
         return prompt.read().strip()
 
-def loadAttachmentPrompt():
-    with open('prompts/attachment_prompt.txt','r') as prompt:
-        return prompt.read().strip()
-
-
-
 def get_api_response_for_prompt(user_input: str):
     SYSTEM_PROMPT = loadPrompt()
     response = client.chat.completions.create(

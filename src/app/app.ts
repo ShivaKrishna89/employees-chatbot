@@ -68,7 +68,7 @@ onFileSelected(event: Event) {
   } else {
     this.networkService.getData(text).subscribe(
       (data: any) => {
-        msg.answer = data;
+        msg.answer = data.response;
       },
       () => {
         msg.answer = 'Error';
